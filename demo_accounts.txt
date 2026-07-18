@@ -1,0 +1,19 @@
+--- CONNEX Test Accounts ---
+
+1. Admin / Platform Manager
+   Email: admin@cirq.ai
+   Pass:  password123
+
+2. Startup Founder (Looking for investment)
+   Email: sarah@startup.io
+   Pass:  password123
+
+3. Investor (Looking to invest)
+   Email: marcus@vc.fund
+   Pass:  password123
+
+4. Service Provider / Distributor
+   Email: elena@globaldist.com
+   Pass:  password123
+
+-----------------------------
