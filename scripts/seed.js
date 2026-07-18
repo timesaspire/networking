@@ -18,8 +18,8 @@ async function main() {
   // 1. Admin / Platform Manager
   await prisma.user.create({
     data: {
-      name: 'Admin User',
-      email: 'admin@cirq.ai',
+      name: 'Admin',
+      email: 'admin@connex.ai',
       password,
       role: 'ADMIN',
       title: 'Platform Administrator',
@@ -30,8 +30,8 @@ async function main() {
   // 2. Startup Founder (Looking for investment)
   await prisma.user.create({
     data: {
-      name: 'Sarah Jenkins',
-      email: 'sarah@startup.io',
+      name: 'User 1',
+      email: 'user1@connex.ai',
       password,
       role: 'USER',
       title: 'Founder & CEO at InnovateTech',
@@ -53,8 +53,8 @@ async function main() {
   // 3. Investor (Looking to invest)
   await prisma.user.create({
     data: {
-      name: 'Marcus Chen',
-      email: 'marcus@vc.fund',
+      name: 'User 2',
+      email: 'user2@connex.ai',
       password,
       role: 'USER',
       title: 'Partner at Horizon Ventures',
@@ -77,8 +77,8 @@ async function main() {
   // 4. Service Provider / Distributor
   await prisma.user.create({
     data: {
-      name: 'Elena Rodriguez',
-      email: 'elena@globaldist.com',
+      name: 'User 3',
+      email: 'user3@connex.ai',
       password,
       role: 'USER',
       title: 'VP of Partnerships at Global Distributors',
@@ -99,16 +99,16 @@ async function main() {
   console.log('Seed completed successfully!')
   console.log('\n--- Test Accounts Created ---')
   console.log('1. Admin:')
-  console.log('   Email: admin@cirq.ai')
+  console.log('   Email: admin@connex.ai')
   console.log('   Pass:  password123')
-  console.log('\n2. Startup Founder:')
-  console.log('   Email: sarah@startup.io')
+  console.log('\n2. User 1 (Startup Founder):')
+  console.log('   Email: user1@connex.ai')
   console.log('   Pass:  password123')
-  console.log('\n3. Investor:')
-  console.log('   Email: marcus@vc.fund')
+  console.log('\n3. User 2 (Investor):')
+  console.log('   Email: user2@connex.ai')
   console.log('   Pass:  password123')
-  console.log('\n4. Distributor:')
-  console.log('   Email: elena@globaldist.com')
+  console.log('\n4. User 3 (Distributor):')
+  console.log('   Email: user3@connex.ai')
   console.log('   Pass:  password123')
   console.log('-----------------------------\n')
 }
