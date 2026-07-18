@@ -11,7 +11,7 @@ export function Sidebar() {
       
       {/* Header */}
       <div className="flex items-center p-5 border-b border-gray-100 shrink-0">
-        <Link href="/dashboard" className="flex items-center gap-3 group">
+        <Link href="/" className="flex items-center gap-3 group">
           <div className="w-9 h-9 rounded-full bg-[#5C45FD] flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
@@ -60,7 +60,7 @@ export function Sidebar() {
               <span className="text-[12px] font-bold text-foreground leading-tight">Invite<br />Connections</span>
             </Link>
 
-            <Link href="/dashboard" className="flex items-center gap-3 p-3 bg-white border border-gray-100 rounded-xl shadow-sm hover:border-[#5C45FD]/30 transition-colors">
+            <Link href="/" className="flex items-center gap-3 p-3 bg-white border border-gray-100 rounded-xl shadow-sm hover:border-[#5C45FD]/30 transition-colors">
               <div className="w-8 h-8 rounded-full bg-[#5C45FD]/10 text-[#5C45FD] flex items-center justify-center flex-shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />

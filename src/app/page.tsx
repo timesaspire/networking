@@ -1,103 +1,122 @@
+import { Card, CardContent } from "@/components/ui/Card"
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
+import { PrismaClient } from "@prisma/client"
 import Link from "next/link"
-import { Button } from "@/components/ui/Button"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card"
+import { TypewriterText } from "@/components/TypewriterText"
 
-export default function LandingPage() {
-  const industries = ["Artificial Intelligence", "Fintech", "SaaS", "HealthTech", "Web3", "Supply Chain"]
-  const opportunities = [
-    { title: "Looking for Series A Lead ($2M)", type: "Investment", company: "DataFlow AI", author: "Sarah J." },
-    { title: "Seeking VP of Engineering", type: "Hiring", company: "CyberShield", author: "Marcus C." },
-    { title: "Enterprise Distributor in LATAM", type: "B2B Services", company: "Global Reach", author: "Elena R." },
-  ]
-  const testimonials = [
-    { quote: "CONNEX completely changed how we find investors. No more cold outreach.", author: "Founder, Series A Startup" },
-    { quote: "The AI matching connects me exactly with the founders I'm looking for.", author: "Partner, Venture Capital" },
-  ]
+const prisma = new PrismaClient()
+
+export default async function Dashboard() {
+  const session = await auth()
+  
+  if (!session?.user) {
+    redirect("/login")
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id! }
+  })
+
+  const firstName = user?.name?.split(' ')[0]?.toUpperCase() || 'USER'
 
   return (
-    <div className="space-y-24 pb-20 appear">
+    <div className="max-w-md mx-auto flex flex-col min-h-[calc(100vh-100px)] appear">
       
-      {/* Hero Section */}
-      <section className="pt-20 text-center space-y-6 max-w-4xl mx-auto">
-        <div className="inline-block px-4 py-1.5 rounded-full bg-gold-50 text-gold-700 text-sm font-semibold mb-4 border border-gold-100">
-          ✨ The AI Relationship Intelligence Platform
+      {/* Top Section: Centered */}
+      <div className="flex-1 flex flex-col items-center justify-center space-y-4 pb-8">
+        <div className="text-center space-y-3 w-full">
+          <h1 className="text-[17px] font-medium text-foreground/80">
+            Welcome, <span className="text-primary font-bold">{firstName}</span>
+          </h1>
+          <h2 className="text-[26px] leading-[1.15] md:text-3xl font-display font-extrabold text-foreground tracking-tight max-w-[280px] mx-auto min-h-[60px]">
+            <TypewriterText phrases={[
+              "Who do you want to connect with today?",
+              "Looking for your next big opportunity?",
+              "Who can help you grow your business?",
+              "Ready to expand your network?"
+            ]} />
+          </h2>
         </div>
-        <h1 className="text-5xl md:text-7xl font-display font-extrabold tracking-tight text-foreground">
-          Find your next big <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-primary">opportunity.</span>
-        </h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Describe who you want to connect with in natural language. Our AI instantly matches you with the right people, companies, and opportunities.
-        </p>
-        <div className="flex items-center justify-center gap-4 pt-4">
-          <Link href="/register">
-            <Button size="lg" className="h-12 px-8 text-base">Get Started Free</Button>
-          </Link>
-          <Link href="/explore">
-            <Button variant="outline" size="lg" className="h-12 px-8 text-base bg-white">Explore Directory</Button>
-          </Link>
+        
+        {/* Placeholder for instructions */}
+        <div className="w-full text-center mt-6">
+          <p className="text-[13px] text-muted-foreground/70 italic">
+            Instructions will appear here
+          </p>
         </div>
-      </section>
+      </div>
 
-      {/* Live Opportunities */}
-      <section className="max-w-6xl mx-auto space-y-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-3xl font-display font-bold">Live Opportunities</h2>
-            <p className="text-muted-foreground mt-2">Real-time asks and gives from the network.</p>
-          </div>
-          <Link href="/explore" className="text-gold-700 font-medium hover:underline">View All →</Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {opportunities.map((opp, i) => (
-            <Card key={i} className="glass hover:-translate-y-1 transition-transform duration-300">
-              <CardContent className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <span className="text-xs font-semibold bg-emerald-soft/10 text-emerald-ink px-2 py-1 rounded">
-                    {opp.type}
-                  </span>
+      {/* Bottom Section */}
+      <div className="mt-auto space-y-6">
+        {/* Action Cards */}
+        <div className="space-y-4">
+          <Link href="/profile" className="block">
+            <div className="relative overflow-hidden rounded-[20px] bg-gradient-to-br from-white to-purple-50/40 border border-purple-100 shadow-[0_4px_20px_-4px_rgba(92,69,253,0.08)] hover:shadow-[0_8px_30px_-4px_rgba(92,69,253,0.15)] hover:-translate-y-1 transition-all duration-300 p-4 sm:p-5 group">
+              <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gradient-to-br from-[#5C45FD]/10 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+              
+              <div className="flex items-center justify-between gap-3 relative z-10">
+                <div className="flex-1 pr-2">
+                  <h3 className="text-[16px] sm:text-[17px] font-display font-semibold leading-tight text-slate-900">
+                    <span className="text-[#5C45FD] font-bold">My Asks</span> <span className="opacity-80 font-medium text-slate-500">– Want to connect to...</span>
+                  </h3>
+                  <p className="text-[12.5px] sm:text-[13px] text-slate-500 mt-1.5 leading-relaxed">
+                    Create your ask and reach out to the right people.
+                  </p>
                 </div>
-                <h3 className="font-semibold text-lg mb-2">{opp.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{opp.company} • Posted by {opp.author}</p>
-                <Link href="/explore">
-                  <Button variant="outline" className="w-full">View Match</Button>
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Industry Explorer */}
-      <section className="max-w-6xl mx-auto space-y-8">
-        <h2 className="text-3xl font-display font-bold text-center">Trending Industries</h2>
-        <div className="flex flex-wrap justify-center gap-4">
-          {industries.map(ind => (
-            <div key={ind} className="px-6 py-3 bg-white border border-input rounded-full font-medium text-sm shadow-sm hover:border-gold-300 hover:text-gold-700 transition-colors cursor-pointer">
-              {ind}
+                <div className="w-12 h-12 rounded-full bg-white shadow-sm text-[#5C45FD] flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#5C45FD] group-hover:text-white transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
-      </section>
+          </Link>
 
-      {/* Testimonials */}
-      <section className="max-w-4xl mx-auto space-y-8">
-        <h2 className="text-3xl font-display font-bold text-center">What Members Say</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {testimonials.map((test, i) => (
-            <Card key={i} className="glass beam-border">
-              <CardContent className="p-8 space-y-6">
-                <p className="text-lg italic font-medium text-foreground/80">"{test.quote}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-gold-300 to-gold-700" />
-                  <p className="text-sm font-semibold">{test.author}</p>
+          <Link href="/profile" className="block">
+            <div className="relative overflow-hidden rounded-[20px] bg-gradient-to-br from-white to-emerald-50/40 border border-emerald-100 shadow-[0_4px_20px_-4px_rgba(16,185,129,0.08)] hover:shadow-[0_8px_30px_-4px_rgba(16,185,129,0.15)] hover:-translate-y-1 transition-all duration-300 p-4 sm:p-5 group">
+              <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+              
+              <div className="flex items-center justify-between gap-3 relative z-10">
+                <div className="flex-1 pr-2">
+                  <h3 className="text-[16px] sm:text-[17px] font-display font-semibold leading-tight text-slate-900">
+                    <span className="text-emerald-500 font-bold">My Gives</span> <span className="opacity-80 font-medium text-slate-500">– I can connect you to...</span>
+                  </h3>
+                  <p className="text-[12.5px] sm:text-[13px] text-slate-500 mt-1.5 leading-relaxed">
+                    Share your network and help others grow.
+                  </p>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+                <div className="w-12 h-12 rounded-full bg-white shadow-sm text-emerald-500 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </Link>
         </div>
-      </section>
+
+        {/* Banner */}
+        <div className="pt-3">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#5C45FD]/5 via-white to-emerald-500/5 border border-white/60 p-3 sm:p-4 shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex items-center gap-3">
+            <div className="absolute inset-0 bg-white/40 backdrop-blur-xl" />
+            
+            <div className="relative z-10 w-8 h-8 rounded-full bg-gradient-to-br from-[#5C45FD] to-purple-500 text-white flex items-center justify-center flex-shrink-0 shadow-md">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div className="relative z-10">
+              <p className="text-slate-800 text-[12px] sm:text-[13px] font-semibold tracking-tight leading-snug">
+                We Encourage <span className="text-[#5C45FD] font-bold">1 Give</span> on every <span className="text-emerald-500 font-bold">2 Asks</span>
+              </p>
+              <p className="text-[10.5px] sm:text-[11px] text-slate-500 mt-0.5 font-medium">Small actions. Stronger connections.</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
   )
 }
+

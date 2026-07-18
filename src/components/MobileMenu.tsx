@@ -37,7 +37,7 @@ export function MobileMenu() {
 
             {/* Header */}
             <div className="flex justify-between items-center p-5 border-b border-gray-100">
-              <Link href="/dashboard" onClick={() => setIsOpen(false)} className="flex items-center gap-3 group">
+              <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-3 group">
                 <div className="w-9 h-9 rounded-full bg-[#5C45FD] flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />

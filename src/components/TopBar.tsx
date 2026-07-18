@@ -27,7 +27,7 @@ export async function TopBar() {
         </div>
 
         {/* Center: Logo */}
-        <Link href="/dashboard" className="flex items-center gap-2 group">
+        <Link href="/" className="flex items-center gap-2 group">
           <div className="w-8 h-8 rounded-full bg-[#5C45FD] flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />

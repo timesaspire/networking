@@ -31,7 +31,7 @@ export default function Login() {
       setError("Invalid credentials")
       setLoading(false)
     } else {
-      router.push("/dashboard")
+      router.push("/")
       router.refresh()
     }
   }
