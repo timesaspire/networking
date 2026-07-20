@@ -17,7 +17,7 @@ const getInitials = (name: string) => {
 }
 export default function PendingFollowsPage() {
   return (
-    <div className="w-full max-w-2xl md:max-w-4xl mx-auto pb-24 appear">
+    <div className="w-full max-w-2xl md:max-w-4xl mx-auto px-4 md:px-0 pb-24 appear">
       
       {/* Container for main card and sidebar */}
       <div className="flex gap-2 sm:gap-4 md:gap-6">

@@ -21,7 +21,7 @@ export default async function Dashboard() {
   const firstName = user?.name?.split(' ')[0]?.toUpperCase() || 'USER'
 
   return (
-    <div className="max-w-md mx-auto flex flex-col min-h-[calc(100vh-100px)] appear">
+    <div className="max-w-md mx-auto px-4 md:px-0 flex flex-col min-h-[calc(100vh-100px)] appear">
       
       {/* Top Section: Centered */}
       <div className="flex-1 flex flex-col items-center justify-center space-y-4 pb-8">
