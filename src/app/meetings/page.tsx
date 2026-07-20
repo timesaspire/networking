@@ -18,20 +18,8 @@ export default function PendingMeetingsPage() {
         <div className="flex-1 bg-white rounded-none md:rounded-[20px] shadow-[0_2px_10px_rgba(0,0,0,0.04)] border-transparent md:border-gray-100 overflow-hidden flex flex-col pb-4 min-h-[calc(100vh-56px)] md:min-h-[600px]">
           
           {/* Header */}
-          <div className="p-4 sm:p-5 md:p-6 flex items-center justify-between shrink-0">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <button className="text-slate-700 hover:bg-gray-50 p-1.5 rounded-md transition-colors md:hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-              <h1 className="font-bold text-[18px] sm:text-[20px] md:text-[22px] text-slate-900 truncate">Pending Meetings</h1>
-            </div>
-            <button className="text-slate-700 relative p-2 hover:bg-gray-50 rounded-xl border border-gray-200 transition-colors shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-            </button>
+          <div className="p-4 sm:p-5 md:p-6 border-b border-gray-50 shrink-0">
+            <h1 className="font-bold text-[18px] sm:text-[20px] md:text-[22px] text-slate-900 truncate">Pending Meetings</h1>
           </div>
 
           {/* Content */}
