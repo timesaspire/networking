@@ -49,35 +49,7 @@ export function Sidebar() {
             </button>
           </div>
 
-          {/* Quick Action Cards */}
-          <div className="grid grid-cols-2 gap-2">
-            <Link href="/invite" className="flex items-center gap-3 p-3 bg-white border border-gray-100 rounded-xl shadow-sm hover:border-[#5C45FD]/30 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-[#5C45FD]/10 text-[#5C45FD] flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-              </div>
-              <span className="text-[12px] font-bold text-foreground leading-tight">Invite<br />Connections</span>
-            </Link>
 
-            <Link href="/" className="flex items-center gap-3 p-3 bg-white border border-gray-100 rounded-xl shadow-sm hover:border-[#5C45FD]/30 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-[#5C45FD]/10 text-[#5C45FD] flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                </svg>
-              </div>
-              <span className="text-[12px] font-bold text-foreground">Dashboard</span>
-            </Link>
-
-            <Link href="/messages" className="col-span-2 flex items-center justify-center gap-3 p-3 bg-white border border-gray-100 rounded-xl shadow-sm hover:border-[#5C45FD]/30 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-[#5C45FD]/5 text-[#5C45FD] flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                </svg>
-              </div>
-              <span className="text-[12px] font-bold text-foreground">Messages</span>
-            </Link>
-          </div>
         </div>
 
         {/* Main Navigation Links */}
