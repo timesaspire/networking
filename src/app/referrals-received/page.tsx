@@ -47,13 +47,13 @@ export default function ReferralsReceivedPage() {
   }, [])
 
   return (
-    <div className="w-full max-w-2xl md:max-w-4xl mx-auto pb-24 appear">
+    <div className="w-full max-w-2xl md:max-w-4xl mx-auto md:pb-24 appear">
       
       {/* Container for main card and sidebar */}
       <div className="flex gap-2 sm:gap-4 md:gap-6">
         
         {/* Main Card */}
-        <div className="flex-1 bg-white shadow-[0_2px_10px_rgba(0,0,0,0.04)] overflow-hidden flex flex-col pb-4 min-h-screen">
+        <div className="flex-1 bg-white rounded-none md:rounded-[20px] shadow-[0_2px_10px_rgba(0,0,0,0.04)] border-transparent md:border-gray-100 overflow-hidden flex flex-col pb-4 min-h-[calc(100vh-56px)] md:min-h-[600px]">
           
           {/* Header */}
           <div className="p-4 sm:p-5 md:p-6 flex items-center justify-between border-b border-gray-50 shrink-0">
