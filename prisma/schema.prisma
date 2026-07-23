@@ -35,6 +35,16 @@ model User {
   messagesSent     Message[] @relation("MessageSender")
   messagesReceived Message[] @relation("MessageReceiver")
 
+  meetingsHosted   Meeting[] @relation("MeetingHost")
+  meetingsGuest    Meeting[] @relation("MeetingGuest")
+
+  followupsMade    Followup[] @relation("FollowupOwner")
+  followupsTarget  Followup[] @relation("FollowupTarget")
+
+  referralsMade    Referral[] @relation("ReferralMaker")
+  referralsReceived Referral[] @relation("ReferralReceiver")
+  referredIn       Referral[] @relation("ReferredUser")
+
   accounts      Account[]
   sessions      Session[]
 }
@@ -129,4 +139,41 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Meeting {
+  id          String   @id @default(cuid())
+  date        DateTime
+  notes       String?
+  status      String   @default("SCHEDULED") // SCHEDULED, COMPLETED, CANCELLED
+  hostId      String
+  guestId     String
+  host        User     @relation("MeetingHost", fields: [hostId], references: [id], onDelete: Cascade)
+  guest       User     @relation("MeetingGuest", fields: [guestId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model Followup {
+  id          String   @id @default(cuid())
+  date        DateTime
+  notes       String
+  status      String   @default("PENDING") // PENDING, COMPLETED
+  userId      String
+  targetId    String
+  user        User     @relation("FollowupOwner", fields: [userId], references: [id], onDelete: Cascade)
+  target      User     @relation("FollowupTarget", fields: [targetId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model Referral {
+  id          String   @id @default(cuid())
+  notes       String
+  status      String   @default("PENDING") // PENDING, SUCCESSFUL, FAILED
+  referrerId  String
+  receiverId  String
+  referredId  String
+  referrer    User     @relation("ReferralMaker", fields: [referrerId], references: [id], onDelete: Cascade)
+  receiver    User     @relation("ReferralReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  referred    User     @relation("ReferredUser", fields: [referredId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
 }
