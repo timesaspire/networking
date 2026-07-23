@@ -7,6 +7,10 @@ async function main() {
   console.log('Seeding database with test accounts...')
 
   // Clear existing
+  await prisma.meeting.deleteMany()
+  await prisma.followup.deleteMany()
+  await prisma.referral.deleteMany()
+  await prisma.connection.deleteMany()
   await prisma.ask.deleteMany()
   await prisma.give.deleteMany()
   await prisma.user.deleteMany()
