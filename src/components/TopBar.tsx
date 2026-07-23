@@ -7,7 +7,7 @@ export async function TopBar() {
   const session = await auth()
 
   return (
-    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-hairline shadow-sm">
+    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-hairline shadow-sm md:hidden">
       <div className="flex items-center justify-between px-4 h-14">
         {/* Left: Mobile Menu & Desktop Search */}
         <div className="flex items-center flex-1">

@@ -2,6 +2,8 @@ import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import { PrismaClient } from "@prisma/client"
 import Link from "next/link"
+import { ProfileAsks, ProfileGives } from "@/components/profile/ProfileSections"
+import { ProfileBio } from "@/components/profile/ProfileBio"
 
 const prisma = new PrismaClient()
 
@@ -67,7 +69,7 @@ export default async function ProfilePage() {
             </div>
             
             <p className="text-[12px] text-gray-500 mt-1 uppercase tracking-wide">
-              {user.title || "COMPANY NAME"} <span className="mx-1 text-gray-300">|</span> LOCATION
+              {user.title || "NO TITLE"} <span className="mx-1 text-gray-300">|</span> LOCATION
             </p>
 
             <div className="flex items-center gap-1.5 mt-4">
@@ -83,19 +85,13 @@ export default async function ProfilePage() {
         <div className="border-t border-gray-100 flex flex-col">
           
           {/* About */}
-          <div className="px-5 py-5 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-bold text-foreground text-[16px]">About</h3>
-              <button className="text-slate-400 hover:text-primary transition-colors p-1">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                </svg>
-              </button>
-            </div>
-            <p className="text-[14px] text-slate-700 leading-relaxed">
-              Passionate and results-driven professional with over a decade of experience in digital transformation and strategic consulting. I specialize in helping businesses navigate complex challenges, optimize their operations, and achieve sustainable growth in highly competitive markets. My expertise spans across product management, team leadership, and cross-functional collaboration. Always eager to connect with like-minded individuals, share insights, and explore innovative opportunities that push the boundaries of what's possible.
-            </p>
-          </div>
+          <ProfileBio bio={user.bio} title={user.title} />
+          <div className="mx-5 border-t border-gray-100" />
+
+          {/* Asks & Gives */}
+          <ProfileAsks asks={user.asks} />
+          <div className="mx-5 border-t border-gray-100" />
+          <ProfileGives gives={user.gives} />
           <div className="mx-5 border-t border-gray-100" />
 
           {/* Services */}

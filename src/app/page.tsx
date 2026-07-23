@@ -15,7 +15,11 @@ export default async function Dashboard() {
   }
 
   const user = await prisma.user.findUnique({
-    where: { id: session.user.id! }
+    where: { id: session.user.id! },
+    include: {
+      asks: true,
+      gives: true
+    }
   })
 
   const firstName = user?.name?.split(' ')[0]?.toUpperCase() || 'USER'
@@ -61,7 +65,7 @@ export default async function Dashboard() {
                     <span className="text-[#5C45FD] font-bold">My Asks</span> <span className="opacity-80 font-medium text-slate-500">– Want to connect to...</span>
                   </h3>
                   <p className="text-[12.5px] sm:text-[13px] text-slate-500 mt-1.5 leading-relaxed">
-                    Create your ask and reach out to the right people.
+                    You have <span className="font-bold text-[#5C45FD]">{user?.asks?.length || 0}</span> active asks. Click here to manage them.
                   </p>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-white shadow-sm text-[#5C45FD] flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#5C45FD] group-hover:text-white transition-all duration-300">
@@ -83,7 +87,7 @@ export default async function Dashboard() {
                     <span className="text-emerald-500 font-bold">My Gives</span> <span className="opacity-80 font-medium text-slate-500">– I can connect you to...</span>
                   </h3>
                   <p className="text-[12.5px] sm:text-[13px] text-slate-500 mt-1.5 leading-relaxed">
-                    Share your network and help others grow.
+                    You have <span className="font-bold text-emerald-500">{user?.gives?.length || 0}</span> active gives. Click here to manage them.
                   </p>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-white shadow-sm text-emerald-500 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
