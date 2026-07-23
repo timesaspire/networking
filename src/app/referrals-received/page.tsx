@@ -48,7 +48,7 @@ export default async function ReferralsReceivedPage() {
 
             <div className="flex flex-col gap-4 md:gap-6">
               
-              {referrals.map((r) => {
+              {referrals.map((r: any) => {
                 const initials = r.referred?.name ? r.referred.name.split(' ').map((n: string) => n[0]).join('') : "U";
                 
                 // Format Date

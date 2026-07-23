@@ -53,7 +53,7 @@ export default async function PendingFollowsPage() {
             {/* List Items */}
             <div className="flex flex-col gap-4 md:gap-6">
               
-              {follows.map((f) => {
+              {follows.map((f: any) => {
                 const initials = f.target?.name ? f.target.name.split(' ').map((n: string) => n[0]).join('') : "U";
                 
                 // Format Date
