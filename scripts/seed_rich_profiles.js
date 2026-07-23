@@ -105,20 +105,29 @@ const mockProfiles = [
 ];
 
 async function main() {
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({ where: { email: 'admin@cirq.ai' } });
   if (users.length === 0) {
-    console.log("No primary user found!");
+    console.log("Admin user admin@cirq.ai not found!");
     return;
   }
   
-  // Find the primary user (the one the user logs in with)
   const myUser = users[0];
-  console.log("Seeding network for:", myUser.name);
+  console.log("Seeding network for:", myUser.name, myUser.email);
 
-  // Clear existing mock data if they have our dummy emails to avoid unique constraints
+  // Clear existing mock data if they have our dummy emails
   await prisma.user.deleteMany({
     where: { email: { in: mockProfiles.map(p => p.email) } }
   });
+
+  // Clear all existing meetings, followups, asks, gives, and referrals for myUser
+  await prisma.meeting.deleteMany({ where: { OR: [{ hostId: myUser.id }, { guestId: myUser.id }] } });
+  await prisma.followup.deleteMany({ where: { userId: myUser.id } });
+  await prisma.referral.deleteMany({ where: { OR: [{ referrerId: myUser.id }, { receiverId: myUser.id }] } });
+  await prisma.ask.deleteMany({ where: { userId: myUser.id } });
+  await prisma.give.deleteMany({ where: { userId: myUser.id } });
+
+  const acceptedFriends = [];
+  const pendingFriends = [];
 
   for (const profile of mockProfiles) {
     const { asks, gives, status, ...userData } = profile;
@@ -132,19 +141,134 @@ async function main() {
     });
 
     if (status === "PENDING") {
-      // Send request TO the main user
+      pendingFriends.push(newUser);
       await prisma.connection.create({
         data: { userAId: newUser.id, userBId: myUser.id, status: "PENDING" }
       });
     } else if (status === "ACCEPTED") {
-      // Connect with the main user
+      acceptedFriends.push(newUser);
       await prisma.connection.create({
         data: { userAId: myUser.id, userBId: newUser.id, status: "ACCEPTED" }
       });
     }
   }
 
-  console.log("Successfully seeded 10 rich profiles and established connections!");
+  // --- Seed Asks and Gives for Admin ---
+  await prisma.ask.createMany({
+    data: [
+      { category: "INVESTMENT", detail: "Looking to raise $1M Seed round for my new B2B AI startup.", userId: myUser.id },
+      { category: "HIRING", detail: "Need a talented Full Stack Engineer proficient in Next.js and Prisma.", userId: myUser.id }
+    ]
+  });
+
+  await prisma.give.createMany({
+    data: [
+      { category: "MENTORSHIP", detail: "Can review business plans and pitch decks for early stage SaaS startups.", userId: myUser.id },
+      { category: "INTRODUCTION", detail: "I know several angel investors in the enterprise software space.", userId: myUser.id }
+    ]
+  });
+
+  // --- Seed Meetings ---
+  if (acceptedFriends.length >= 3) {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    const nextWeek = new Date();
+    nextWeek.setDate(nextWeek.getDate() + 5);
+
+    await prisma.meeting.create({
+      data: {
+        date: tomorrow,
+        status: "SCHEDULED",
+        notes: "Discuss the potential partnership and product roadmap.",
+        hostId: myUser.id,
+        guestId: acceptedFriends[0].id
+      }
+    });
+
+    await prisma.meeting.create({
+      data: {
+        date: nextWeek,
+        status: "SCHEDULED",
+        notes: "Coffee catchup to talk about AI trends in healthcare.",
+        hostId: myUser.id,
+        guestId: acceptedFriends[1].id
+      }
+    });
+
+    await prisma.meeting.create({
+      data: {
+        date: new Date(),
+        status: "SCHEDULED",
+        notes: "Review the Q3 marketing strategy and budget.",
+        hostId: acceptedFriends[2].id, // Hosted by friend
+        guestId: myUser.id
+      }
+    });
+  }
+
+  // --- Seed Follow-ups ---
+  if (acceptedFriends.length >= 2) {
+    const followDate = new Date();
+    followDate.setDate(followDate.getDate() + 2);
+
+    await prisma.followup.create({
+      data: {
+        date: followDate,
+        notes: "Check if they reviewed the investment pitch deck.",
+        status: "PENDING",
+        userId: myUser.id,
+        targetId: acceptedFriends[3].id
+      }
+    });
+
+    await prisma.followup.create({
+      data: {
+        date: followDate,
+        notes: "Ask about their recent product launch metrics.",
+        status: "PENDING",
+        userId: myUser.id,
+        targetId: acceptedFriends[4].id
+      }
+    });
+  }
+
+  // --- Seed Referrals ---
+  if (acceptedFriends.length >= 3) {
+    // Referrals Passed (Admin referred someone TO a friend)
+    await prisma.referral.create({
+      data: {
+        status: "PENDING",
+        notes: "I think you guys should connect. Priya is an amazing designer.",
+        referrerId: myUser.id,
+        receiverId: acceptedFriends[0].id,
+        referredId: acceptedFriends[4].id // Referring Priya to friend 0
+      }
+    });
+
+    await prisma.referral.create({
+      data: {
+        status: "COMPLETED",
+        notes: "Marcus needs some manufacturing help, you should chat with him.",
+        referrerId: myUser.id,
+        receiverId: acceptedFriends[1].id,
+        referredId: acceptedFriends[3].id // Referring Marcus to friend 1
+      }
+    });
+
+    // Referrals Received (Friend referred someone TO Admin)
+    await prisma.referral.create({
+      data: {
+        status: "PENDING",
+        notes: "Admin, you should talk to Zaheer about logistics.",
+        referrerId: acceptedFriends[2].id,
+        receiverId: myUser.id,
+        referredId: acceptedFriends[1].id
+      }
+    });
+  }
+
+  console.log("Successfully seeded 10 rich profiles with connections, meetings, follow-ups, and referrals for admin@cirq.ai!");
 }
 
 main()
