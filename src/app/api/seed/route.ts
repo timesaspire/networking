@@ -106,15 +106,27 @@ const mockProfiles = [
   }
 ];
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    const users = await prisma.user.findMany();
+    const { searchParams } = new URL(req.url);
+    const email = searchParams.get("email");
+
+    const users = await prisma.user.findMany({
+      orderBy: { id: 'desc' }
+    });
+    
     if (users.length === 0) {
-      return NextResponse.json({ message: "No primary user found to attach connections to." }, { status: 400 });
+      return NextResponse.json({ message: "No primary user found to attach connections to. Please register first." }, { status: 400 });
     }
     
-    // Find the primary user (the admin)
-    const myUser = users.find(u => u.email === "admin@cirq.ai") || users[0];
+    // Find the primary user (the admin, or the specified email, or the latest registered user)
+    let myUser;
+    if (email) {
+      myUser = users.find(u => u.email === email);
+      if (!myUser) return NextResponse.json({ error: `User with email ${email} not found.` }, { status: 404 });
+    } else {
+      myUser = users.find(u => u.email === "admin@cirq.ai") || users[0];
+    }
 
     // Clear existing mock data
     await prisma.user.deleteMany({
