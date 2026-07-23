@@ -58,7 +58,7 @@ export default async function PendingMeetingsPage() {
             <div className="flex flex-col gap-4 md:gap-6">
               
               {meetings.map((meeting: any) => {
-                const otherPerson = meeting.hostId === session.user.id ? meeting.guest : meeting.host;
+                const otherPerson = meeting.hostId === session!.user!.id ? meeting.guest : meeting.host;
                 const initials = otherPerson?.name ? otherPerson.name.split(' ').map((n: string) => n[0]).join('') : "U";
                 
                 // Format Date

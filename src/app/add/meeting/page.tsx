@@ -25,7 +25,7 @@ export default async function AddMeetingPage() {
   })
 
   const networkOptions = connections.map(c => {
-    const otherUser = c.userAId === session.user.id ? c.userB : c.userA;
+    const otherUser = c.userAId === session!.user!.id ? c.userB : c.userA;
     return {
       id: otherUser.id,
       name: otherUser.name || "Unknown",
